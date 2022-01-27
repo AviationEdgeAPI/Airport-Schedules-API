@@ -29,8 +29,8 @@ For the arrival schedule of a certain airport:
 
 &type=              (obligatory) Flight type: departure or arrival
 
-&status=            (obligatory) The status of the flight: landed, scheduled, cancelled, active, incident, diverted, redirected, unknown
 
+&status=            The status of the flight: landed, scheduled, cancelled, active, incident, diverted, redirected, unknown
 
 &airline_name=      Name of the airline (Air France, American Airlines, Delta Air Lines, etc) (may need air%20france, american%20airlines, delta%20air%20lines)
 
