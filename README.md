@@ -2,7 +2,7 @@
 Aviation Edge Schedules API is a JSON REST API that provides real-time airport timetable data. It has global coverage with the exception of military and private airfields. We gather the data from multiple different sources such as our data partners and airlines and airports directly (when availabile). We collect the data, maintain it ourselves and present it to our clients in a real-time manner via an API with fast response rates.
 The API is desiged to return one schedule at a time. This can be either the daparture or the arrival schedule of a specific airport. It is possible to filter the flights in the response based on airline, flight number, flight status and more.
 
-[Get your API key](https://aviation-edge.com/premium-api/) in a minute and start testing the data right away. The API is provided through API subscriptions. All plans grant access to the Flights Tracker API and other APIs with a difference of the monthly API call limit. Choose the best plan for you and upgrade, downgrade or cancel your plan anytime without  commitments.
+[Get your API key](https://aviation-edge.com/premium-api/) in a minute and start testing the data right away. The API is provided through API subscriptions. All plans grant access to the Airport Schedules API and other APIs with a difference of the monthly API call limit. Choose the best plan for you and upgrade, downgrade or cancel your plan anytime without  commitments.
 
 ### Documentation
 You may find input parameters, output examples with explanations for each item, filter list, and more in the [documentation](https://aviation-edge.com/developers/).
