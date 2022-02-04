@@ -1,8 +1,6 @@
 # Airport-Schedules-API
-Aviation Edge Schedules API is a JSON REST API that provides real-time airport timetable data. It has global coverage with the exception of military and private airfields. We gather the data from multiple different sources such as our data partners and airlines and airports directly (when availabile). We collect the data, maintain it ourselves and present it to our clients in a real-time manner via an API with fast response rates.
+Aviation Edge [Schedules API](https://aviation-edge.com/flight-schedule-and-timetable-of-airlines-and-airports/) is a JSON REST API that provides real-time airport timetable data. It has global coverage with the exception of military and private airfields. We gather the data from multiple different sources such as our data partners and airlines and airports directly (when availabile). We collect the data, maintain it ourselves and present it to our clients in a real-time manner via an API with fast response rates.
 The API is desiged to return one schedule at a time. This can be either the daparture or the arrival schedule of a specific airport. It is possible to filter the flights in the response based on airline, flight number, flight status and more.
-
-[Get your API key](https://aviation-edge.com/premium-api/) in a minute and start testing the data right away. The API is provided through API subscriptions. All plans grant access to the Airport Schedules API and other APIs with a difference of the monthly API call limit. Choose the best plan for you and upgrade, downgrade or cancel your plan anytime without  commitments.
 
 ### Documentation
 You may find input parameters, output examples with explanations for each item, filter list, and more in the [documentation](https://aviation-edge.com/developers/).
@@ -73,10 +71,10 @@ For the arrival schedule of a certain airport:
 ]
 ```
 
-### Questions & Support
+### Access & Support
 [Contact us](https://aviation-edge.com/contact/) via email for any questions or support requests.
+
+[Get your API key](https://aviation-edge.com/premium-api/) in a minute and start testing the data right away. The API is provided through API subscriptions. All plans grant access to the Airport Schedules API and other APIs with a difference of the monthly API call limit. Choose the best plan for you and upgrade, downgrade or cancel your plan anytime without  commitments.
 
 ### License
 The use of the API is subject to Aviation Edge [Terms and Conditions](https://aviation-edge.com/api-terms-of-service/).
-
-
