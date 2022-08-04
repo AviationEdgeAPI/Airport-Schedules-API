@@ -15,11 +15,11 @@ You may find input parameters, output examples with explanations for each item, 
 ### Request
 For the departure schedule of a certain airport:
 
-**GET** `http://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=departure`
+**GET** `https://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=departure`
 
 For the arrival schedule of a certain airport:
 
-**GET** `http://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=arrival`
+**GET** `https://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=arrival`
 
 ### Filters
 ```
