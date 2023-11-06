@@ -1,5 +1,5 @@
-# Airport-Schedules-API
-Aviation Edge [Schedules API](https://aviation-edge.com/flight-schedule-and-timetable-of-airlines-and-airports/) is a JSON REST API that provides real-time airport timetable data. It has global coverage with the exception of military and private airfields. We gather the data from multiple different sources such as our data partners and airlines and airports directly (when availabile). We collect the data, maintain it ourselves and present it to our clients in a real-time manner via an API with fast response rates.
+# Real-time Airport-Schedules-API
+Aviation Edge [Real-time Airport Schedules API](https://aviation-edge.com/flight-schedule-and-timetable-of-airlines-and-airports/) is a JSON REST API that provides live airport timetable data. It has global coverage with the exception of military and private airfields. We gather the data from multiple different sources such as our data partners and airlines and airports directly (when availabile). We collect the data, maintain it ourselves and present it to our clients in a real-time manner via an API with fast response rates.
 The API is desiged to return one schedule at a time. This can be either the daparture or the arrival schedule of a specific airport. It is possible to filter the flights in the response based on airline, flight number, flight status and more.
 
 ### Documentation
@@ -44,6 +44,61 @@ For the arrival schedule of a certain airport:
 
 
 &codeshared=        If the flight is codeshared, this data will be included. If you don't want codeshared flights, you can input null
+```
+
+### Useful Code Examples
+
+1.	Fetching data from the API (axios library used):
+
+```
+const axios = require('axios');
+
+const API_KEY = 'YOUR_API_KEY_HERE'; // Replace this with your API key.
+const API_ENDPOINT = `https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=JFK&type=departure`;
+
+async function fetchDepartures() {
+    try {
+        const response = await axios.get(API_ENDPOINT);
+        const departures = response.data;
+        return departures;
+    } catch (error) {
+        console.error("Error fetching departures:", error);
+        throw error;
+    }
+}
+
+// Usage example:
+fetchDepartures().then(departures => {
+    console.log(departures);
+}).catch(error => {
+    console.error("Error:", error.message);
+});
+```
+
+2.	Parsing the data
+
+Get Departures by Airline:
+
+```
+function getDeparturesByAirline(departures, airlineName) {
+    return departures.filter(departure => departure.airline.name === airlineName);
+}
+
+// Usage example:
+// const departures = await fetchDepartures();
+// const anaDepartures = getDeparturesByAirline(departures, 'ANA');
+// console.log(anaDepartures);
+
+Get Departures with Delays:
+
+function getDelayedDepartures(departures) {
+    return departures.filter(departure => departure.departure.delay !== null);
+}
+
+// Usage example:
+// const departures = await fetchDepartures();
+// const delayedDepartures = getDelayedDepartures(departures);
+// console.log(delayedDepartures);
 ```
 
 ### Response
