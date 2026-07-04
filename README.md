@@ -1,18 +1,25 @@
-# Real-time Airport-Schedules-API
-Aviation Edge [Real-time Airport Schedules API](https://aviation-edge.com/flight-schedule-and-timetable-of-airlines-and-airports/) is a JSON REST API that provides live airport timetable data. It has global coverage with the exception of military and private airfields. We gather the data from multiple different sources such as our data partners and airlines and airports directly (when availabile). We collect the data, maintain it ourselves and present it to our clients in a real-time manner via an API with fast response rates.
-The API is desiged to return one schedule at a time. This can be either the daparture or the arrival schedule of a specific airport. It is possible to filter the flights in the response based on airline, flight number, flight status and more.
+# Real-time-Airport-Schedules-API
+
+[Real-time Airport Schedules API](https://aviation-edge.com/flight-schedule-and-timetable-of-airlines-and-airports/) is a JSON REST API that provides live airport timetable data for airport departures and arrivals worldwide. The API is designed for developers who need real-time airport schedule data, live flight status information, airport arrival data, airport departure data, delay information, terminal and gate details, airline information, flight numbers, codeshare details, and aircraft data through a simple API request.
+
+The API is designed to return one airport schedule at a time. This can be either the departure schedule or the arrival schedule of a specific airport. It is possible to filter flights in the response based on airline, flight number, flight status, codeshare information, and more.
 
 ### Documentation
-You may find input parameters, output examples with explanations for each item, filter list, and more in the [documentation](https://aviation-edge.com/developers/).
+
+You may find input parameters, output examples with explanations for each item, filter list, and more in the [documentation](https://aviation-edge.com/developers/#schedulesa).
 
 ### Example Fields of Use
-- Websites, tools or apps on tracking flight status
-- Tracking flight delays and cancellations
-- Airport greeting and transportation services
-- Flight time analysis
-- Airport traffic analysis
+
+* Websites, tools, or apps that display live airport departure and arrival schedules
+* Flight tracking platforms using real-time airport timetable data
+* Travel, airport greeting, and transportation services tracking flight arrivals
+* Tools monitoring flight delays, cancellations, diversions, and active flights
+* Airport traffic analysis based on live departure and arrival data
+* Aviation data platforms that need structured real-time flight schedule data
+* Internal dashboards for airport, airline, or operational monitoring
 
 ### Request
+
 For the departure schedule of a certain airport:
 
 **GET** `https://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=departure`
@@ -21,142 +28,229 @@ For the arrival schedule of a certain airport:
 
 **GET** `https://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=arrival`
 
+For the departure schedule of a certain airport filtered by airline IATA code:
+
+**GET** `https://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=departure&airline_iata=AA`
+
+For the arrival schedule of a certain airport filtered by flight status:
+
+**GET** `https://aviation-edge.com/v2/public/timetable?key=[API_KEY]&iataCode=JFK&type=arrival&status=landed`
+
 ### Filters
+
 ```
-&iataCode=          (obligatory) The IATA code of the airport you'd like to request data from.
+&iataCode=          (mandatory) The IATA code of the airport you'd like to request data from.
 
-&type=              (obligatory) Flight type: departure or arrival
+&type=              (mandatory) Flight type: departure or arrival
 
 
-&status=            The status of the flight: landed, scheduled, cancelled, active, incident, diverted, redirected, unknown
+&status=            The status of the flight: scheduled, active, landed, cancelled, unknown, diverted
 
-&airline_name=      Name of the airline (Air France, American Airlines, Delta Air Lines, etc) (may need air%20france, american%20airlines, delta%20air%20lines)
+&airline_name=      Name of the airline, for example Air France, American Airlines, Delta Air Lines
+                    Airline names may need URL encoding, for example air%20france or american%20airlines
 
-&airline_iata=      IATA code of airline
+&airline_iata=      IATA code of the airline
 
-&airline_icao=      ICAO code of airline 
+&airline_icao=      ICAO code of the airline
 
 &flight_num=        The flight number based on 1 to 4 digits, for example: 171
 
-&flight_iata=       The flight iata number consisting of digits and letters, usually of the airline iata code. For example: AA171
+&flight_iata=       The flight IATA number consisting of digits and letters, usually including the airline IATA code.
+                    For example: AA171
 
-&flight_icao=       The flight icao number consisting of digits and letters, usually the airline icao code. For example: AAL171
+&flight_icao=       The flight ICAO number consisting of digits and letters, usually including the airline ICAO code.
+                    For example: AAL171
 
 
-&codeshared=        If the flight is codeshared, this data will be included. If you don't want codeshared flights, you can input null
+&codeshared=        If the flight is codeshared, this data will be included.
+                    If you don't want codeshared flights, you can input null.
 ```
 
 ### Useful Code Examples
 
-1.	Fetching data from the API (axios library used):
+1. Fetching data from the API with JavaScript using the Axios library
 
 ```
-const axios = require('axios');
+const axios = require("axios");
 
-const API_KEY = 'YOUR_API_KEY_HERE'; // Replace this with your API key.
-const API_ENDPOINT = `https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=JFK&type=departure`;
+const API_KEY = "YOUR_API_KEY_HERE";
+const API_ENDPOINT = `https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=JFK&type=arrival`;
 
-async function fetchDepartures() {
+async function fetchAirportSchedule() {
     try {
         const response = await axios.get(API_ENDPOINT);
-        const departures = response.data;
-        return departures;
+        return response.data;
     } catch (error) {
-        console.error("Error fetching departures:", error);
-        throw error;
+        console.error("Error fetching airport schedule:", error);
+        return null;
     }
 }
 
-// Usage example:
-fetchDepartures().then(departures => {
-    console.log(departures);
-}).catch(error => {
-    console.error("Error:", error.message);
+// Test fetching the data
+fetchAirportSchedule().then(data => {
+    if (data) {
+        console.log("Received Airport Schedule Data:", data);
+    }
 });
 ```
 
-2.	Parsing the data
-
-Get Departures by Airline:
+2. Display selected flight details, including aircraft data
 
 ```
-function getDeparturesByAirline(departures, airlineName) {
-    return departures.filter(departure => departure.airline.name === airlineName);
+function displayFlightDetails(flight) {
+    console.log("Flight Number:", flight.flight.iataNumber);
+    console.log("Flight Status:", flight.status);
+    console.log("Schedule Type:", flight.type);
+
+    console.log("Airline:", flight.airline.name);
+    console.log("Airline IATA:", flight.airline.iataCode);
+    console.log("Airline ICAO:", flight.airline.icaoCode);
+
+    if (flight.aircraft) {
+        console.log("Aircraft ICAO Code:", flight.aircraft.icaoCode);
+        console.log("Aircraft Registration:", flight.aircraft.regNumber);
+        console.log("Aircraft ICAO24:", flight.aircraft.icao24);
+    }
+
+    console.log("Departure Airport:", flight.departure.iataCode);
+    console.log("Departure Scheduled Time:", flight.departure.scheduledTime);
+    console.log("Departure Actual Time:", flight.departure.actualTime);
+    console.log("Departure Delay:", flight.departure.delay);
+
+    console.log("Arrival Airport:", flight.arrival.iataCode);
+    console.log("Arrival Scheduled Time:", flight.arrival.scheduledTime);
+    console.log("Arrival Actual Time:", flight.arrival.actualTime);
+    console.log("Arrival Delay:", flight.arrival.delay);
+
+    console.log(
+        "Codeshare Flight:",
+        flight.codeshared ? flight.codeshared.flight.iataNumber : "No codeshare information available"
+    );
 }
 
-// Usage example:
-// const departures = await fetchDepartures();
-// const anaDepartures = getDeparturesByAirline(departures, 'ANA');
-// console.log(anaDepartures);
+// Test display function with the first flight from fetched data
+fetchAirportSchedule().then(data => {
+    if (data && data.length > 0) {
+        displayFlightDetails(data[0]);
+    }
+});
+```
 
-Get Departures with Delays:
+3. Filter flights with current departure or arrival delays
 
-function getDelayedDepartures(departures) {
-    return departures.filter(departure => departure.departure.delay !== null);
+```
+function getFlightsWithDelays(data) {
+    return data.filter(flight => {
+        const departureDelay = flight.departure && flight.departure.delay !== null;
+        const arrivalDelay = flight.arrival && flight.arrival.delay !== null;
+
+        return departureDelay || arrivalDelay;
+    });
 }
 
-// Usage example:
-// const departures = await fetchDepartures();
-// const delayedDepartures = getDelayedDepartures(departures);
-// console.log(delayedDepartures);
+// Test delay filter with the fetched data
+fetchAirportSchedule().then(data => {
+    if (data) {
+        const delayedFlights = getFlightsWithDelays(data);
+        console.log("Flights With Delays:", delayedFlights);
+    }
+});
+```
+
+4. Filter flights by status
+
+```
+function getFlightsByStatus(data, status) {
+    return data.filter(flight => flight.status === status);
+}
+
+// Example statuses: scheduled, active, landed, cancelled, unknown, diverted
+fetchAirportSchedule().then(data => {
+    if (data) {
+        const landedFlights = getFlightsByStatus(data, "landed");
+        console.log("Landed Flights:", landedFlights);
+    }
+});
 ```
 
 ### Response
+
 ```
 [
-{
-"airline":
-{
-"iataCode":"UA",
-"icaoCode":"UAL",
-"name":"United Airlines"
-},
-"arrival":
-{
-"actualRunway":null,
-"actualTime":null,
-"baggage":"7",
-"delay":null,
-"estimatedRunway":null,
-"estimatedTime":"2022-11-03T10:02:00.000",
-"gate":"107",
-"iataCode":"EWR",
-"icaoCode":"KEWR",
-"scheduledTime":"2022-11-03T10:21:00.000",
-"terminal":"C"
-},
-"codeshared":null,
-"departure":
-{
-"actualRunway":"2022-11-03T06:12:00.000",
-"actualTime":"2022-11-03T06:12:00.000",
-"baggage":null,
-"delay":"13",
-"estimatedRunway":"2022-11-03T06:12:00.000",
-"estimatedTime":"2022-11-03T06:10:00.000",
-"gate":"34",
-"iataCode":"IAH",
-"icaoCode":"KIAH",
-"scheduledTime":"2022-11-03T06:00:00.000",
-"terminal":"C"
-},
-"flight":
-{"iataNumber":"UA1268",
-"icaoNumber":"UAL1268",
-"number":"1268"
-},
-"status":"active",
-"type":"departure"
-},
-…
+  {
+    "aircraft": {
+      "icao24": "A3D326",
+      "icaoCode": "A21N",
+      "regNumber": "N34562"
+    },
+    "airline": {
+      "iataCode": "NZ",
+      "icaoCode": "ANZ",
+      "name": "Air New Zealand"
+    },
+    "arrival": {
+      "actualRunway": "2026-07-03T00:32:00.000",
+      "actualTime": "2026-07-03T00:32:00.000",
+      "baggage": "C2",
+      "delay": null,
+      "estimatedRunway": "2026-07-03T00:32:00.000",
+      "estimatedTime": "2026-07-03T00:32:00.000",
+      "gate": "14",
+      "iataCode": "IAH",
+      "icaoCode": "KIAH",
+      "scheduledTime": "2026-07-03T00:41:00.000",
+      "terminal": "E"
+    },
+    "codeshared": {
+      "airline": {
+        "iataCode": "ua",
+        "icaoCode": "ual",
+        "name": "united airlines"
+      },
+      "flight": {
+        "iataNumber": "ua1253",
+        "icaoNumber": "ual1253",
+        "number": "1253"
+      }
+    },
+    "departure": {
+      "actualRunway": "2026-07-02T21:37:00.000",
+      "actualTime": "2026-07-02T21:37:00.000",
+      "baggage": null,
+      "delay": "27",
+      "estimatedRunway": "2026-07-02T21:37:00.000",
+      "estimatedTime": "2026-07-02T21:31:00.000",
+      "gate": "B16",
+      "iataCode": "DEN",
+      "icaoCode": "KDEN",
+      "scheduledTime": "2026-07-02T21:10:00.000",
+      "terminal": null
+    },
+    "flight": {
+      "iataNumber": "NZ6508",
+      "icaoNumber": "ANZ6508",
+      "number": "6508"
+    },
+    "status": "landed",
+    "type": "arrival"
+  }
 ]
-
 ```
 
-### Access & Support
-[Contact us](https://aviation-edge.com/contact/) via email for any questions or support requests.
+### Developer Notes
 
-[Get your API key](https://aviation-edge.com/premium-api/) in a minute and start testing the data right away. The API is provided through API subscriptions. All plans grant access to the Airport Schedules API and other APIs with a difference of the monthly API call limit. Choose the best plan for you and upgrade, downgrade or cancel your plan anytime without  commitments.
+The Real-time Airport Schedules API can be used to retrieve live airport departure schedules and live airport arrival schedules. Each request returns one schedule type at a time for a selected airport.
+
+The `status` field indicates the current flight status. Possible status values include `scheduled`, `active`, `landed`, `cancelled`, `unknown`, and `diverted`.
+
+Delayed is not a separate flight status in this API. Current departure and arrival delay information is available in the response through the delay fields under the departure and arrival arrays.
+
+### Access & Support
+
+[Contact us](https://aviation-edge.com/contact/) via email for any questions, support requests, custom requirements, or sample data requests.
+
+[Get your API key](https://aviation-edge.com/premium-api/) in a minute and start testing the data right away. The API is provided through API subscriptions. All plans grant access to the Current Airport Schedules API and other APIs with a difference of the monthly API call limit. Choose the best plan for you and upgrade, downgrade or cancel your plan anytime without commitments.
 
 ### License
+
 The use of the API is subject to Aviation Edge [Terms and Conditions](https://aviation-edge.com/api-terms-of-service/).
